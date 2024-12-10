@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podcast Finder - Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="container">
+        <h1>Welcome to Podcast Finder</h1>
+        <p>Search for the best podcasts from your favorite creators.</p>
+        <form action="{{ url_for('search') }}" method="post">
+            <label for="channel_name">Enter Creator Name:</label>
+            <input type="text" id="channel_name" name="channel_name" required>
+            <button type="submit">Search Podcasts</button>
+        </

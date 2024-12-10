@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podcast Finder - Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="container">
+        <h1>Search Results</h1>
+
+        {% if channel_description %}
+        <h2>Channel Description:</h2>
+        <p>{{ channel_description }}</p>
+        {% endif %}
+        
+        {% if videos %}
+        <h2>Top Podcasts:</h2>
+        <ul>
+        {% for video in videos %}
+            <li>
+                <a href="{{ video.link }}" target="_blank">{{ video.title }}</a> 
+                <p>Summary: {{ video.summary }}</p>
+                <p class="stats">Views: {{ video.views }} | Likes: {{ video.likes }} | Comments: {{ video.comments }}</p>
+            </li>
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p>No videos found for this creator.</p>
+        {% endif %}
+        <a href="{{ url_for('home') }}">Back to Hom
