@@ -54,31 +54,4 @@ def get_channel_videos(channel_name, max_results=10):
                         'title': video_title,
                         'description': video_desc,
                         'views': int(stats.get('viewCount', 0)),
-                        'likes': int(stats.get('likeCount', 0)),
-                        'comments': int(stats.get('commentCount', 0)),
-                        'link': f"https://www.youtube.com/watch?v={video_id}"
-                    })
-
-        return {
-            'channel_description': channel_description,
-            'videos': video_data
-        }
-    else:
-        return {'channel_description': "Channel not found", 'videos': []}
-
-@app.route('/')
-def home():
-    return render_template('home.html')
-
-@app.route('/search', methods=['GET', 'POST'])
-def search():
-    if request.method == 'POST':
-        channel_name = request.form['channel_name']
-        results = get_channel_videos(channel_name)
-        return render_template('search_results.html', 
-                               channel_description=results['channel_description'], 
-                               videos=results['videos'])
-    return redirect(url_for('home'))  # Redirect to home if accessed via GET
-
-if __name__ == '__main__':
-    app.run(debug=True)
+                        'lik
