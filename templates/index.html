@@ -17,25 +17,4 @@
         
         {% if channel_description %}
         <h2>Channel Description:</h2>
-        <p>{{ channel_description }}</p>
-        {% endif %}
-        
-        {% if videos %}
-        <h2>Top Podcasts:</h2>
-        <ul>
-        {% for video in videos %}
-            <li>
-                <a href="{{ video.link }}" target="_blank">{{ video.title }}</a> 
-                <p>Description: {{ video.description }}</p>
-                <p class="stats">
-                    <span class="views">{{ video.views }}</span> | 
-                    <span class="likes">{{ video.likes }}</span> | 
-                    <span class="comments">{{ video.comments }}</span>
-                </p>
-            </li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
-</body>
-</html>
+        <p>{{ channel_descripti

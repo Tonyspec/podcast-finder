@@ -1,11 +1,10 @@
 from flask import Flask, render_template, request, render_template, redirect, url_for
 from googleapiclient.discovery import build
-import requests
+from config import API_KEY
 
 app = Flask(__name__)
 
-# Your API key
-api_key = 'AIzaSyDmD_9GM41wuFwtcR3vBwgHLK4SxSGdWxU'
+api_key = API_KEY
 
 # YouTube API setup
 youtube = build('youtube', 'v3', developerKey=api_key)
