@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, render_template, redirect, url_for
 from googleapiclient.discovery import build
-import pandas as pd
+import requests
 
 app = Flask(__name__)
 
@@ -10,8 +10,8 @@ api_key = 'AIzaSyDmD_9GM41wuFwtcR3vBwgHLK4SxSGdWxU'
 # YouTube API setup
 youtube = build('youtube', 'v3', developerKey=api_key)
 
+
 def get_channel_videos(channel_name, max_results=10):
-    # Channel search logic as before
     channel_search = youtube.search().list(
         q=channel_name,
         type='channel',
@@ -21,6 +21,15 @@ def get_channel_videos(channel_name, max_results=10):
 
     if channel_search['items']:
         channel_id = channel_search['items'][0]['id']['channelId']
+        
+        # Get channel description
+        channel_info = youtube.channels().list(
+            part="snippet",
+            id=channel_id
+        ).execute()
+        
+        channel_description = channel_info['items'][0]['snippet']['description'] if channel_info['items'] else "Description not available"
+
         videos = youtube.search().list(
             channelId=channel_id,
             part='id,snippet',
@@ -33,31 +42,16 @@ def get_channel_videos(channel_name, max_results=10):
             if item['id']['kind'] == "youtube#video":
                 video_id = item['id']['videoId']
                 video_title = item['snippet']['title']
-                video_stats = youtube.videos().list(
-                    part='statistics',
+                # Fetch full video details for the full description
+                video_details = youtube.videos().list(
+                    part='snippet,statistics',
                     id=video_id
                 ).execute()
                 
-                stats = video_stats['items'][0]['statistics']
-                video_data.append({
-                    'title': video_title,
-                    'views': int(stats.get('viewCount', 0)),
-                    'likes': int(stats.get('likeCount', 0)),
-                    'comments': int(stats.get('commentCount', 0))
-                })
-
-        df = pd.DataFrame(video_data)
-        return df.to_dict('records')
-    else:
-        return []
-
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'POST':
-        channel_name = request.form['channel_name']
-        top_videos = get_channel_videos(channel_name)
-        return render_template('index.html', videos=top_videos)
-    return render_template('index.html', videos=None)
-
-if __name__ == '__main__':
-    app.run(debug=True)
+                if video_details['items']:
+                    video_desc = video_details['items'][0]['snippet']['description']
+                    stats = video_details['items'][0]['statistics']
+                    video_data.append({
+                        'title': video_title,
+                        'description': video_desc,
+                        'views': int(stats.get('viewCou

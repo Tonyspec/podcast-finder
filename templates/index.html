@@ -3,22 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Podcasts by Creator</title>
+    <title>Podcast Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <form method="post">
-        <label for="channel_name">Enter Creator Name:</label>
-        <input type="text" id="channel_name" name="channel_name" required>
-        <button type="submit">Find Top Podcasts</button>
-    </form>
-    
-    {% if videos %}
-    <h2>Top Podcasts:</h2>
-    <ul>
-    {% for video in videos %}
-        <li>{{ video.title }} - Views: {{ video.views }} | Likes: {{ video.likes }} | Comments: {{ video.comments }}</li>
-    {% endfor %}
-    </ul>
-    {% endif %}
+    <div class="container">
+        <h1>Podcast Finder</h1>
+        <form method="post">
+            <label for="channel_name">Enter Creator Name:</label>
+            <input type="text" id="channel_name" name="channel_name" required>
+            <button type="submit">Find Top Podcasts</button>
+        </form>
+        
+        {% if channel_description %}
+        <h2>Channel Description:</h2>
+        <p>{{ channel_description }}</p>
+        {% endif %}
+        
+        {% if videos %}
+        <h2>Top Podcasts:</h2>
+        <ul>
+        {% for video in videos %}
+            <li>
+                <a href="{{ video.link }}" target="_blank">{{ video.title }}</a> 
+                <p>Description: {{ video.description }}</p>
+                <p class="stats">
+                    <span class="views">{{ video.views }}</span> | 
+                    <span class="likes">{{ video.likes }}</span> | 
+                    <span class="comments">{{ video.comments }}</span>
+                </p>
+            </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
 </body>
 </html>
