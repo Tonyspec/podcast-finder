@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Podcasts by Creator</title>
+</head>
+<body>
+    <form method="post">
+        <label for="channel_name">Enter Creator Name:</label>
+        <input type="text" id="channel_name" name="channel_name" required>
+        <button type="submit">Find Top Podcasts</button>
+    </form>
+    
+    {% if videos %}
+    <h2>Top Podcasts:</h2>
+    <ul>
+    {% for video in videos %}
+        <li>{{ video.title }} - Views: {{ video.views }} | Likes: {{ video.likes }} | Comments: {{ video.comments }}</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>
